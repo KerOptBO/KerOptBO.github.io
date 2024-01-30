@@ -7,7 +7,7 @@
         <meta name="description" content="OracleBO Demos">
         <meta name="author" content="Anonymous">
 
-        <title>Sample-Constrained Black Box Optimization for Audio Personalization</title>
+        <title>Kernel Learning for Sample Constrained Black-Box Optimization</title>
 
         <!-- Bootflat CSS -->
         <link rel="stylesheet" href="css/bootflat.css">
@@ -467,8 +467,8 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
 
 		<div id="paper_info">
 			<div id="paper_title">
-    	        <h1>Sample-Constrained Black Box Optimization for Audio Personalization</h1>
-                <p style="color:lightblue;font-size:18px;">Submitted to AAAI 2023</p>
+    	        <h1>Kernel Learning for Sample Constrained Black-Box Optimization</h1>
+                <p style="color:lightblue;font-size:18px;">Submitted to ICML 2024</p>
 			</div>
 		</div>
 
@@ -478,69 +478,63 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
 	        <div id="intro">
 				<h2><a class="subtitle">Brief Overview</a></h2><br>
                 
-                <p style="font-size: 15px">We consider the problem of personalizing audio to maximize user experience.
-					Briefly, we aim to find a filter \(h^*\), which applied to any music or speech, will maximize the user's satisfaction. 
-					This is a black-box optimization problem since the user's satisfaction function (may look as shown in the Figure below) is unknown.
-					The key idea is to play audio samples to the user, 
-					each shaped by a different filter \(h_i\), and query the user for their satisfaction scores \(f(h_i)\).
-					A family of ``surrogate'' functions is then designed to fit these scores and the optimization method gradually 
-					refines these functions to arrive at the filter \(\hat{h}^*\) that maximizes satisfaction.
-					In this paper, we observe that a second type of querying is possible where users can tell us the individual elements 
-					\(h^*[j]\) of the optimal filter \(h^*\). Given a budget of \(B\) queries, where a query can be of either type, our goal is 
-					to maximize user satisfaction. Our proposal builds on Sparse Gaussian Process Regression (GPR) and shows how a hybrid approach 
-					can outperform any one type of querying. Our results are validated through simulations and  real-world experiments, where volunteers gave 
-					feedback on music/speech audio and were able to achieve high satisfaction levels.</p>
+                <p style="font-size: 15px">Black box optimization focuses on optimizing unknown functions in high-dimensional spaces.
+In certain applications, evaluating these functions is expensive, hence the optimization must be performed under tight sample budgets.
+Past works have approached black-box optimization using Gaussian Process Regression (GPR) and sample efficiency has been improved by utilizing information about the shape/structure of the function.
+
+
+We propose to discover the structure of the function by learning a GPR kernel. 
+Learning the kernel is achieved via an auxiliary optimization in (latent) kernel space, realized inside a variation autoencoder.
+The optimal kernel is expected to best ``explain'' the unknown function, helping lower the sample budget.
+Results show that our method, {\em Kernel Optimized Blackbox Optimization} (\name), effectively minimizes the black-box function at a substantively lower sample budget.
+Results hold not only in synthetic black box functions but also in real-world applications, where audio/images need to be personalized with limited user queries.</p>
 
                     <a><img src="img/f3_stair.jpg" class="center" style="object-fit:contain;
                         width:700px;
                         height:300px"></a>
                 <p style="font-size: 15px">
-                Consider the problem of personalizing content to a user's taste. Given the content \(c\), we intend to 
-				adjust the content with a linear filter \(h\). Our goal is to find the optimal filter \(h^*\) that will 
-				maximize the user's personal satisfaction \(f(h)\). Finding \(h^*\) is difficult because the user's 
-				satisfaction function \f(h)\) is unknown; it is embedded somewhere inside the perceptual regions of the brain.
-				Hence, gradient descent is not possible since gradients cannot be computed. Black box optimization (BBO) has 
-				been proposed for such settings, where one queries user-satisfaction scores for carefully sampled \(h_i\), and 
-				from \(B\) such queries, estimate \(\hat{h}^*\) that maximizes \(\hat{f}(h)\). Of course, reducing the query budget \(
-				B\) is of interest and the tradeoff between \(B\) and \(\hat{f}(\hat{h}^*)\) has been studied extensively.
+                Many problems involve the optimization of an {\em unknown} objective function. 
+Examples include personalizing content \(x\) to maximize a user's satisfaction \(f(x)\), or training deep learning models with hyperparameters $x$ to maximize their performance \(f(x)\).
+Function \(f(x)\) is unknown in these cases because it is embedded inside the human brain (for personalization) or too complex to derive (for hyper-parameter tuning).
+However, for any chosen sample \(x_i\), the value of \(f(x_i)\) can be evaluated. 
+For hearing-aid personalization, say, evaluating the function would entail playing audio with some hearing-compensation filter \(h_i\) and obtaining the user's satisfaction score \(f(h_i)\). Bayesian methods like Gaussian Process Regression (GPR) are de facto approaches to black-box optimization. 
+Using the set of function evaluations, conventional GPR learns a probabilistic surrogate model \(\hat{f}(x)\) for \(f(x)\). 
+The optimum is estimated on this surrogate as \(\hat{x}^* = \argmin -\hat{f}(x)\).
                 </p>
 
                 <p style="font-size: 15px">
-                The above problem can be called \(``\text{filter querying}''\) where the user is queried using different filters 
-				\(h_i \in R^N\). In this paper, we discuss an extension to this problem where a  second type of querying is 
-				possible, called \(``\text{dimension querying}''\). With dimension querying, it is possible to query the user for 
-				each dimension of the optimal filter, namely \(h^*[1], h^*[2], \dots, h^*[N]\). In audio personalization, for 
-				example, the optimal \(h^*\) is the hearing profile of a user in the frequency domain; if we accurately estimate 
-				the hearing profile, we can maximize their satisfaction. With dimension querying, a user can listen to sound 
-				at each individual frequency \(j \in [1,N]\) and tell us the best score \(h^*[j]\). The only problem is that \(N\) 
-				can be very large, say \(8000\) Hz, hence it is prohibitive to query the user thousands of times.
+                In most BBO problems, $f(x)$ is expensive to evaluate, hence a strict sample or query budget \(B\) is of interest.
+Techniques that lower this budget have garnered recent attention. 
+One idea is to exploit domain knowledge about the rough shape of \(f(x)\), i.e., select a GPR kernel that models this shape.
+With humans, for example, \(f(x)\) may have a staircase structure as they may not perceive differences in certain neighborhoods of $x$, but their ratings may change just outside that neighborhood. 
+If GPR's surrogate model \(\hat{f}(x)\) captures this staircase structure in its kernel, sample efficiency can improve.
+The question is, in the absence of domain knowledge, {\em can the optimal GPR kernel \(\mathbf{K}^*\) be learnt, using the same sample queries needed to find \(x^*\)?}
                 </p>
                 
                 <p style="font-size: 15px">
-                To summarize, a filter query offers the advantage of understanding user satisfaction for a complete filter, 
-				while a dimension query gives optimal information for only one dimension at a time. This paper asks, for a 
-				given query budget \(B\), can the combination of two types of querying lead to higher user satisfaction compared 
-				to a single type of querying? How much is the gain from combination and how does the gain vary against various 
-				application parameters?. The Optimization problem is put formally below:
+                Our contribution is a kernel learning technique that first creates a continuous space of kernels, then optimizes on that kernel space to find the optimal kernel \(\mathbf{K}^*\) for \(\hat{f}(x)\).
+Briefly, a {\em Kernel Combiner} generates composite kernels by adding or multiplying simple ``basis'' kernels like Radial Basis Function (RBF), Periodic (PE), Mat\'ern (MA), etc. 
+The resulting kernel space is discrete as it is composed of discrete kernel choices. 
+Searching this discrete kernel space to obtain the best-suited kernel is difficult, hence we propose a generative model -- a {\em Kernel Space Variational Autoencoder (KerVAE)} -- that learns a low-dimensional continuous manifold of the discrete kernels. 
+This manifold lives in the latent space of the VAE and computing the effectiveness of each kernel is also a black box function because it is prohibitively expensive.
+Hence, kernel learning is achieved through a {\em Kernel Space GPR (KerGPR)} that optimizes this low-dimensional manifold to find \(\mathbf{K}^*\).
 			    </p>
 				
 				<p style="font-size: 15px">
-				\[\text{argmin}_{\hat{h} \in \mathcal{H}} \quad ||f(\hat{h})-f(h^*)||_2\]
+				\[\text{argmin}_{\hat{x} \in \mathcal{H}} \quad ||f(\hat{x})-f(x^*)||_2\]
 				</p>
 				<p style="font-size: 15px">
 
-				\[\textrm{s.t.} \quad Q_f + Q_d \leq B\]
+				\[\textrm{s.t.} \quad Q \leq B\]
 </p>
 				<p style="font-size: 15px">
-				where, \(Q_f, Q_d\) are the number of filter and dimension queries described above, and the query budget \(B \ll N\).
+				where, \(Q\) is the number of times the objective function is evaluated/queried, and the query budget \(B \ll N\).
 				</p>
 				<p style="font-size: 15px">
-				Our solution builds on past work that uses Gaussian Process Regression (GPR) as shown in the Figure below. Conventional GPR begins with a family 
-				of surrogate functions for \(f(h)\) and estimates a posterior on these functions, based on how well they satisfy the 
-				user's scores. Over time, GPR iterates through a two step process, first picking an optimal filter \(h_j\) to query 
-				the user, and based on the score \(f(h_j)\), updates the posterior distribution. The goal is to query and update posterior 
-				until a desired criteria is met. The mean of this posterior \(\hat{f}(h)\) is now declared as the surrogate for \(f(h)\) and 
-				\(\hat{h}^* = \text{argmax} \hat{f}(h)\) is announced as the final personalization filter. 
+				Function \(f\) may be non-convex, may not have a closed-form expression, and its gradient is unavailable. 
+Blackbox techniques like GPR require choosing a kernel to model the function structure -- a poor choice incurs more queries for optimization.
+Since queries can be expensive in many applications (e.g., users need to answer too many queries, or a deep learning model needs to be re-trained for each hyper-parameter configuration), lowering \(Q\) is of growing interest.
+Kernel learning aims to address this problem.
 				
 				<p style="font-size: 15px">
 				The function to minimize typically, lies in a high dimensional space (i.e., \(h \in \mathcal{H} \subseteq \mathbf{R}^N, N \ge 500\)). 
