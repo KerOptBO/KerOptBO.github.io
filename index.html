@@ -533,7 +533,7 @@ Hence, kernel learning is achieved through a <b> Kernel Space GPR (KerGPR)</b> t
                     width:1000px;
                     height:370px" class="center"></a>
                   
-			
+			<br>
 			<h2><a class="subtitle">KOBO: Kernel Optimized BO</a></h2><br>
 Figure above shows the complete <b>Kernel Optimized Blackbox Optimization KOBO</b> model, with two main modules: 
 </p><ul align="justify"; style="font-size: 15px">
@@ -543,21 +543,7 @@ This module forwards the model evidence, \(p(\mathcal{F} | \mathcal{X}, \mathbf{
                         <li><b>Kernel Learning</b> - This second module learns the continuous kernel space through a kerVAE and applies a GPR on the latent space to estimate \(z^*\).
 The GPR uses model evidence for the optimization, and returns the optimal kernel \(\mathbf{K}^*\) to \(f\)GPR.
 The iterations occur until the query budget \(B\) has been expended.</li>
-                 
-                    </ul>
-				
-                <
-				<!--div class="clearfix">
-				<div class="img-container">
-				<img src="img/pipe3.png" alt="Italy" style="object-fit:contain;width:100%">
-				</div>
-				<div class="img-container">
-				<img src="img/proj1.png" alt="Forest" style="object-fit:contain;height:100%">
-				</div>
-				</div>   
-            </div-->
-				
-
+                 </ul>
 
             </div>
 
@@ -570,22 +556,21 @@ The iterations occur until the query budget \(B\) has been expended.</li>
                     We intend to characterize the performance of OracleBO for synthetic satisfaction functions (with a staircase shape as shown in the Figure above)
                     We compare with several baselines as follows:
                     </p><ul align="justify"; style="font-size: 15px">
-                        <li>ALEBO [1] - SparseBO algorithm that only uses \(Q_f\) filter queries</li>
-                        <li>OracleBO - Our proposed algorithm that combines filter \(Q_f\) and \(Q_d\) dimension queries.</li>
+                        <li>MCMC [1] - MCMC-based kernel learning method that uses Metroplis-Hastings algorithm to sample kernel space to obtain the optimal kernel \(\mathbf{K}^*\) that maximizes Model Evidence.</li>
+                        <li>OracleBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries</li>
                  
                     </ul>
-                    <p style="font-size: 15px">Results below show that OracleBO outperforms ALEBO and achieves better minimum \(\hat{f}_{min}\). 
-					Moreover, the performance is improved with more \(Q_d\) queries. 
+                    <p style="font-size: 15px">Results below show that KOBO outperforms MCMC and achieves the minimum \(\hat{f}_{min}\) much quicker. 
                 </p>
                 <!--a><img src="img/result1.jpg" style="object-fit:contain;
                             width:1000px;
                             height:300px"></a-->
                  <div class="clearfix">
 				<div class="img-container">
-				<img src="img/f5.png" alt="Italy" style="object-fit:contain;width:100%">
+				<img src="img/R1a_v3.jpg" alt="Italy" style="object-fit:contain;width:100%">
 				</div>
 				<div class="img-container">
-				<img src="img/f7.png" alt="Forest" style="object-fit:contain;width:100%">
+				<img src="img/R1b_v3.jpg" alt="Forest" style="object-fit:contain;width:100%">
 				</div>
 				</div>   
             </div>
