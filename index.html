@@ -557,11 +557,11 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 	        <div id="results">
                 <h2><a class="subtitle">Synthetic Function Results</a></h2><br>
                 <p align="justify"; style="font-size: 15px">
-                    We intend to characterize the performance of OracleBO for synthetic satisfaction functions (with a staircase shape as shown in the Figure above)
+                    We intend to characterize the performance of KOBO for synthetic satisfaction functions (with a staircase shape as shown in the Figure above)
                     We compare with a baseline as follows:
                     </p><ul align="justify"; style="font-size: 15px">
                         <li>MCMC [1] - MCMC-based kernel learning method that uses Metroplis-Hastings algorithm to sample kernel space to obtain the optimal kernel \(\mathbf{K}^*\) that maximizes Model Evidence.</li>
-                        <li>OracleBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries.</li>
+                        <li>KOBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries.</li>
                  
                     </ul>
                     <p style="font-size: 15px">Results below show that KOBO outperforms MCMC and achieves the minimum \(\hat{f}_{min}\) much quicker. 
@@ -624,7 +624,7 @@ The iterations occur until the query budget \(B\) has been expended.</li>
                 <br>
 				<p align="justify"; style="font-size: 13px"><FONT COLOR="RED">*Note: The audio quality you hear in the following
 				demos will be influenced by the frequency response of your audio-speaker, hence the quality you experience will not accurately reflect the quality perceived by users U1, U2, U3. 
-				OracleBO is actually compensating for each user’s audio-speaker’s response function as well, hence users U1, U2, U3 should have 
+				KOBO is actually compensating for each user’s audio-speaker’s response function as well, hence users U1, U2, U3 should have 
 				heard a better quality.</FONT>
 				<br><br>
 				<h4><a class="subtitle">The Hearing Loss Corruption case</a></h4><br>
@@ -1210,32 +1210,32 @@ The iterations occur until the query budget \(B\) has been expended.</li>
                     <thead>
                         <tr>
                             <th rowspan="2" style="text-align:center;">Query</th>
-							<th colspan="3" style="text-align:center;">User 1</th>
-                            <th colspan="3" style="text-align:center;">User 2</th>
-                            <th colspan="3" style="text-align:center;">User 3</th>
-							<th colspan="3" style="text-align:center;">User 4</th>
-							<th colspan="3" style="text-align:center;">User 5</th>
-							<th colspan="3" style="text-align:center;">User 6</th>
+							<th colspan="3" style="text-align:center;border-left:1px solid black">User 1</th>
+                            <th colspan="3" style="text-align:center;border-left:1px solid black">User 2</th>
+                            <th colspan="3" style="text-align:center;border-left:1px solid black">User 3</th>
+							<th colspan="3" style="text-align:center;border-left:1px solid black">User 4</th>
+							<th colspan="3" style="text-align:center;border-left:1px solid black">User 5</th>
+							<th colspan="3" style="text-align:center;border-left:1px solid black">User 6</th>
                             
                         </tr>
 						<tr>
                             
-							<th colspan=1 style="text-align:center;">SE</th>
+							<th colspan=1 style="text-align:center;border-left:1px solid black">SE</th>
                             <th colspan=1 style="text-align:center;">PER</th>
                             <th colspan=1 style="text-align:center;">KER</th>
-							<th colspan=1 style="text-align:center;">SE</th>
+							<th colspan=1 style="text-align:center;border-left:1px solid black">SE</th>
                             <th colspan=1 style="text-align:center;">PER</th>
                             <th colspan=1 style="text-align:center;">KER</th>
-							<th colspan=1 style="text-align:center;">SE</th>
+							<th colspan=1 style="text-align:center;border-left:1px solid black">SE</th>
                             <th colspan=1 style="text-align:center;">PER</th>
                             <th colspan=1 style="text-align:center;">KER</th>
-							<th colspan=1 style="text-align:center;">SE</th>
+							<th colspan=1 style="text-align:center;border-left:1px solid black">SE</th>
                             <th colspan=1 style="text-align:center;">PER</th>
                             <th colspan=1 style="text-align:center;">KER</th>
-							<th colspan=1 style="text-align:center;">SE</th>
+							<th colspan=1 style="text-align:center;border-left:1px solid black">SE</th>
                             <th colspan=1 style="text-align:center;">PER</th>
                             <th colspan=1 style="text-align:center;">KER</th>
-							<th colspan=1 style="text-align:center;">SE</th>
+							<th colspan=1 style="text-align:center;border-left:1px solid black">SE</th>
                             <th colspan=1 style="text-align:center;">PER</th>
                             <th colspan=1 style="text-align:center;">KER</th>
                             
