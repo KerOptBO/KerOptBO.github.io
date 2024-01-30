@@ -481,44 +481,24 @@ mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
                 <p style="font-size: 15px">Black box optimization focuses on optimizing unknown functions in high-dimensional spaces.
 In certain applications, evaluating these functions is expensive, hence the optimization must be performed under tight sample budgets.
 Past works have approached black-box optimization using Gaussian Process Regression (GPR) and sample efficiency has been improved by utilizing information about the shape/structure of the function.
-
-
 We propose to discover the structure of the function by learning a GPR kernel. 
 Learning the kernel is achieved via an auxiliary optimization in (latent) kernel space, realized inside a variation autoencoder.
 The optimal kernel is expected to best ``explain'' the unknown function, helping lower the sample budget.
-Results show that our method, {\em Kernel Optimized Blackbox Optimization} (\name), effectively minimizes the black-box function at a substantively lower sample budget.
+Results show that our method, <b>Kernel Optimized Blackbox Optimization (KOBO)</b>, effectively minimizes the black-box function at a substantively lower sample budget.
 Results hold not only in synthetic black box functions but also in real-world applications, where audio/images need to be personalized with limited user queries.</p>
 
-                    <a><img src="img/f3_stair.jpg" class="center" style="object-fit:contain;
+                    <a><img src="img/f4_stair.jpg" class="center" style="object-fit:contain;
                         width:700px;
                         height:300px"></a>
                 <p style="font-size: 15px">
-                Many problems involve the optimization of an {\em unknown} objective function. 
-Examples include personalizing content \(x\) to maximize a user's satisfaction \(f(x)\), or training deep learning models with hyperparameters $x$ to maximize their performance \(f(x)\).
+                Many problems involve the optimization of an unknown objective function. 
+Examples include personalizing content \(x\) to maximize a user's satisfaction \(f(x)\), or training deep learning models with hyperparameters \(x\) to maximize their performance \(f(x)\).
 Function \(f(x)\) is unknown in these cases because it is embedded inside the human brain (for personalization) or too complex to derive (for hyper-parameter tuning).
 However, for any chosen sample \(x_i\), the value of \(f(x_i)\) can be evaluated. 
-For hearing-aid personalization, say, evaluating the function would entail playing audio with some hearing-compensation filter \(h_i\) and obtaining the user's satisfaction score \(f(h_i)\). Bayesian methods like Gaussian Process Regression (GPR) are de facto approaches to black-box optimization. 
+For hearing-aid personalization, say, evaluating the function would entail playing audio with some hearing-compensation filter \(x_i\) and obtaining the user's satisfaction score \(f(x_i)\). Bayesian methods like Gaussian Process Regression (GPR) are de facto approaches to black-box optimization. 
 Using the set of function evaluations, conventional GPR learns a probabilistic surrogate model \(\hat{f}(x)\) for \(f(x)\). 
-The optimum is estimated on this surrogate as \(\hat{x}^* = \argmin -\hat{f}(x)\).
+The optimum is estimated on this surrogate as \(\hat{x}^* that minimizes -\hat{f}(x)\).
                 </p>
-
-                <p style="font-size: 15px">
-                In most BBO problems, $f(x)$ is expensive to evaluate, hence a strict sample or query budget \(B\) is of interest.
-Techniques that lower this budget have garnered recent attention. 
-One idea is to exploit domain knowledge about the rough shape of \(f(x)\), i.e., select a GPR kernel that models this shape.
-With humans, for example, \(f(x)\) may have a staircase structure as they may not perceive differences in certain neighborhoods of $x$, but their ratings may change just outside that neighborhood. 
-If GPR's surrogate model \(\hat{f}(x)\) captures this staircase structure in its kernel, sample efficiency can improve.
-The question is, in the absence of domain knowledge, {\em can the optimal GPR kernel \(\mathbf{K}^*\) be learnt, using the same sample queries needed to find \(x^*\)?}
-                </p>
-                
-                <p style="font-size: 15px">
-                Our contribution is a kernel learning technique that first creates a continuous space of kernels, then optimizes on that kernel space to find the optimal kernel \(\mathbf{K}^*\) for \(\hat{f}(x)\).
-Briefly, a {\em Kernel Combiner} generates composite kernels by adding or multiplying simple ``basis'' kernels like Radial Basis Function (RBF), Periodic (PE), Mat\'ern (MA), etc. 
-The resulting kernel space is discrete as it is composed of discrete kernel choices. 
-Searching this discrete kernel space to obtain the best-suited kernel is difficult, hence we propose a generative model -- a {\em Kernel Space Variational Autoencoder (KerVAE)} -- that learns a low-dimensional continuous manifold of the discrete kernels. 
-This manifold lives in the latent space of the VAE and computing the effectiveness of each kernel is also a black box function because it is prohibitively expensive.
-Hence, kernel learning is achieved through a {\em Kernel Space GPR (KerGPR)} that optimizes this low-dimensional manifold to find \(\mathbf{K}^*\).
-			    </p>
 				
 				<p style="font-size: 15px">
 				\[\text{argmin}_{\hat{x} \in \mathcal{H}} \quad ||f(\hat{x})-f(x^*)||_2\]
@@ -531,10 +511,28 @@ Hence, kernel learning is achieved through a {\em Kernel Space GPR (KerGPR)} tha
 				where, \(Q\) is the number of times the objective function is evaluated/queried, and the query budget \(B \ll N\).
 				</p>
 				<p style="font-size: 15px">
-				Function \(f\) may be non-convex, may not have a closed-form expression, and its gradient is unavailable. 
-Blackbox techniques like GPR require choosing a kernel to model the function structure -- a poor choice incurs more queries for optimization.
-Since queries can be expensive in many applications (e.g., users need to answer too many queries, or a deep learning model needs to be re-trained for each hyper-parameter configuration), lowering \(Q\) is of growing interest.
-Kernel learning aims to address this problem.
+				Function \(f\) may be non-convex, may not have a closed-form expression, and its gradient is unavailable.
+
+                <p style="font-size: 15px">
+                In most BBO problems, \(f(x)\) is expensive to evaluate, hence a strict sample or query budget \(B\) is of interest.
+Techniques that lower this budget have garnered recent attention. 
+One idea is to exploit domain knowledge about the rough shape of \(f(x)\), i.e., select a GPR kernel that models this shape.
+With humans, for example, \(f(x)\) may have a staircase structure as they may not perceive differences in certain neighborhoods of \(x\), but their ratings may change just outside that neighborhood. 
+If GPR's surrogate model \(\hat{f}(x)\) captures this staircase structure in its kernel, sample efficiency can improve.
+The question is, in the absence of domain knowledge, <it> can the optimal GPR kernel \(\mathbf{K}^*\) be learnt, using the same sample queries needed to find \(x^*\)?</it>
+                </p>
+                
+                <p style="font-size: 15px">
+                Our contribution is a kernel learning technique that first creates a continuous space of kernels, then optimizes on that kernel space to find the optimal kernel \(\mathbf{K}^*\) for \(\hat{f}(x)\).
+Briefly, a <b> Kernel Combiner </b> generates composite kernels by adding or multiplying simple ``basis'' kernels like Radial Basis Function (RBF), Periodic (PE), Matern (MA), etc. 
+The resulting kernel space is discrete as it is composed of discrete kernel choices. 
+Searching this discrete kernel space to obtain the best-suited kernel is difficult, hence we propose a generative model -- a <b> Kernel Space Variational Autoencoder (KerVAE)</b> -- that learns a low-dimensional continuous manifold of the discrete kernels. 
+This manifold lives in the latent space of the VAE and computing the effectiveness of each kernel is also a black box function because it is prohibitively expensive.
+Hence, kernel learning is achieved through a <b> Kernel Space GPR (KerGPR)</b> that optimizes this low-dimensional manifold to find \(\mathbf{K}^*\).
+			    </p>
+				
+				 
+
 				
 				<p style="font-size: 15px">
 				The function to minimize typically, lies in a high dimensional space (i.e., \(h \in \mathcal{H} \subseteq \mathbf{R}^N, N \ge 500\)). 
