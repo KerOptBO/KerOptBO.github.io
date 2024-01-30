@@ -529,29 +529,24 @@ This manifold lives in the latent space of the VAE and computing the effectivene
 Hence, kernel learning is achieved through a <b> Kernel Space GPR (KerGPR)</b> that optimizes this low-dimensional manifold to find \(\mathbf{K}^*\).
 			    </p>
 				
-				 
-			<h2>KOBO: Kernel Optimized BO</h2>
+				a><img src="img/kerGPR_v3.jpg" style="object-fit:contain;
+                    width:1000px;
+                    height:370px" class="center"></a>
+                  
+			
+			<h2><a class="subtitle">KOBO: Kernel Optimized BO</a></h2><br>
 Figure above shows the complete <b>Kernel Optimized Blackbox Optimization KOBO</b> model, with two main modules: 
 </p><ul align="justify"; style="font-size: 15px">
                         <li><b>Function GPR (\(f\)GPR})</b> - This is a Bayesian framework aimed at optimizing the objective function \(f(x)\) through a GPR that uses an initial kernel to generate surrogate functions, and then uses an acquisition function to decide the next sample \(x_i\) to evaluate. 
 This module forwards the model evidence, \(p(\mathcal{F} | \mathcal{X}, \mathbf{K})\) to the second module and receives updated kernel prescriptions from it.
 </li>
                         <li><b>Kernel Learning</b> - This second module learns the continuous kernel space through a kerVAE and applies a GPR on the latent space to estimate \(z^*\).
-The GPR uses model evidence for the optimization, and returns the optimal kernel \(\mathbf{K}^*\) to \textbf{\(f\)GPR}.
-The iterations occur until the query budget $B$ has been expended.</li>
+The GPR uses model evidence for the optimization, and returns the optimal kernel \(\mathbf{K}^*\) to \(f\)GPR.
+The iterations occur until the query budget \(B\) has been expended.</li>
                  
                     </ul>
 				
-				<p style="font-size: 15px">
-				
-				
-				
-				</p>
-
-                <a><img src="img/kerGPR_v3.jpg" style="object-fit:contain;
-                    width:1000px;
-                    height:370px" class="center"></a>
-                  
+                <
 				<!--div class="clearfix">
 				<div class="img-container">
 				<img src="img/pipe3.png" alt="Italy" style="object-fit:contain;width:100%">
