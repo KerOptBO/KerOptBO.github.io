@@ -497,7 +497,7 @@ Function \(f(x)\) is unknown in these cases because it is embedded inside the hu
 However, for any chosen sample \(x_i\), the value of \(f(x_i)\) can be evaluated. 
 For hearing-aid personalization, say, evaluating the function would entail playing audio with some hearing-compensation filter \(x_i\) and obtaining the user's satisfaction score \(f(x_i)\). Bayesian methods like Gaussian Process Regression (GPR) are de facto approaches to black-box optimization. 
 Using the set of function evaluations, conventional GPR learns a probabilistic surrogate model \(\hat{f}(x)\) for \(f(x)\). 
-The optimum is estimated on this surrogate as \(\hat{x}^* that minimizes -\hat{f}(x)\).
+The optimum is estimated on this surrogate as \(\hat{x}^*\) that minimizes \(-\hat{f}(x)\).
                 </p>
 				
 				<p style="font-size: 15px">
@@ -509,9 +509,7 @@ The optimum is estimated on this surrogate as \(\hat{x}^* that minimizes -\hat{f
 </p>
 				<p style="font-size: 15px">
 				where, \(Q\) is the number of times the objective function is evaluated/queried, and the query budget \(B \ll N\).
-				</p>
-				<p style="font-size: 15px">
-				Function \(f\) may be non-convex, may not have a closed-form expression, and its gradient is unavailable.
+				Function \(f\) may be non-convex, may not have a closed-form expression, and its gradient is unavailable.</p>
 
                 <p style="font-size: 15px">
                 In most BBO problems, \(f(x)\) is expensive to evaluate, hence a strict sample or query budget \(B\) is of interest.
@@ -532,24 +530,25 @@ Hence, kernel learning is achieved through a <b> Kernel Space GPR (KerGPR)</b> t
 			    </p>
 				
 				 
-
+			<h2>KOBO: Kernel Optimized BO</h2>
+Figure above shows the complete <b>Kernel Optimized Blackbox Optimization KOBO</b> model, with two main modules: 
+</p><ul align="justify"; style="font-size: 15px">
+                        <li><b>Function GPR (\(f\)GPR})</b> - This is a Bayesian framework aimed at optimizing the objective function \(f(x)\) through a GPR that uses an initial kernel to generate surrogate functions, and then uses an acquisition function to decide the next sample \(x_i\) to evaluate. 
+This module forwards the model evidence, \(p(\mathcal{F} | \mathcal{X}, \mathbf{K})\) to the second module and receives updated kernel prescriptions from it.
+</li>
+                        <li><b>Kernel Learning</b> - This second module learns the continuous kernel space through a kerVAE and applies a GPR on the latent space to estimate \(z^*\).
+The GPR uses model evidence for the optimization, and returns the optimal kernel \(\mathbf{K}^*\) to \textbf{\(f\)GPR}.
+The iterations occur until the query budget $B$ has been expended.</li>
+                 
+                    </ul>
 				
 				<p style="font-size: 15px">
-				The function to minimize typically, lies in a high dimensional space (i.e., \(h \in \mathcal{H} \subseteq \mathbf{R}^N, N \ge 500\)). 
-				We assume our function is sparse i.e., most dimensions do not influence \(f\) significantly, so \(f\) has ``low effective dimensions". 
-				We build upon a sparse Bayesian optimization framework to attain performance improvements independent of the sparsity technique. 
-				We use methods that exploit sparsity to create a low-dimensional embedding space using random projections, ALEBO [1]. ALEBO uses 
-				random projections to transform \(f\) to a lower dimensional embedding space such that the translation of the minimum \(h^*\) from 
-				high dimensional space \(\mathcal{H}\) to its corresponding minimum \(y^*\) in low dimensional embedding space is guaranteed. 
-				The random embedding is defined by an embedding matrix \(\mathbf{B} \in \mathbf{R}^{d \times N}\) as shown in the Figure below that transforms 
-				\(f\) into its lower dimensional equivalent \(f_B(y) = f(h) = f(\mathbf{B}^\dagger y)\). Bayesian optimization of \(f_B(y)\) is performed in the 
-				lower dimensional space \(\mathbf{R}^d\).
 				
 				
 				
 				</p>
 
-                <a><img src="img/pipe4.png" style="object-fit:contain;
+                <a><img src="img/kerGPR_v3.jpg" style="object-fit:contain;
                     width:1000px;
                     height:370px" class="center"></a>
                   
