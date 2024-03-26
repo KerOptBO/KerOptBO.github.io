@@ -1833,14 +1833,14 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 				</p><ul align="justify"; style="font-size: 15px">
                         <li>MCMC [1] - MCMC-based kernel learning method that uses Metroplis-Hastings algorithm to sample kernel space to obtain the optimal kernel \(\mathbf{K}^*\) that maximizes Model Evidence.</li>
                         <li>CKS [2] - CKS is a greedy search algorithm. CKS generates complex kernels as compositions of base kernels through addition and multiplication. It treats the kernel selection as a tree search over the discrete kernel space \(\mathcal{K}\). 
-						Model evidence is used as the metric to traverse the tree and informs the next composite kernel generated at each tree node.
+						Model Evidence is the metric that informs the next composite kernel generated at each node traversal.
 						<li> BOMS [3] - BOMS uses Bayesian Optimization to find the optimal kernel \(\mathbf{K}^*\) in discrete kernel space \(\mathcal{K}\). To navigate the BO search in the discrete space, BOMS defines a kernel similarity measure called "Hellinger Distance".
 						This distance is used to compute the covariance of the Gaussian distribution of the BO. This “kernel-kernel” is needed to move from one kernel to another during the search. 
 						Kernels which are a certain Hellinger distance away from base kernels form the “active model set” on which BO is applied.
-						<li>KOBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries.</li>
+						<!--li>KOBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries.</li-->
                  
-                    </ul>
-                    <p style="font-size: 15px">Results below show that KOBO outperforms MCMC, CKS, and BOMS. KOBO achieves the minimum \(\hat{f}_{min}\) much quicker. 
+                    </ul><br>
+                    <p style="font-size: 15px">Results below (Updated Figure 6 in paper) show that KOBO outperforms MCMC, CKS, and BOMS. KOBO achieves the minimum \(\hat{f}_{min}\) much quicker. 
                 </p>
 				<div class="clearfix">
 				<div class="img-container">
@@ -1851,8 +1851,8 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 				</div>
 				</div>   
             </div>
-			The continuous latent space learned by KerVAE simplifies the KerGPR optimization to determine \(\mathbf{K}^*\). 
-			KOBO presents an efficient search of the discrete kernel space \(\mathcal{K}\) which outperforms sub-optimal strategies like greedy search (CKS) and heuristic metrics for BO in discrete space (BOMS). 
+			KOBO presents an efficient search of the discrete kernel space \(\mathcal{K}\). The continuous latent space learned by KerVAE simplifies the KerGPR optimization to determine \(\mathbf{K}^*\). 
+			 This outperforms sub-optimal strategies like greedy search (CKS) and heuristic metrics for BO in discrete space (BOMS). 
 			<br>
 			<br>
 				
