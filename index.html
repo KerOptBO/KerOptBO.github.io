@@ -1831,17 +1831,17 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 				We compare KOBO to the following kernel learning methods:<br>
                 
 				</p><ul align="justify"; style="font-size: 15px">
-                        <li>MCMC [1] - MCMC-based kernel learning method that uses Metroplis-Hastings algorithm to sample kernel space to obtain the optimal kernel \(\mathbf{K}^*\) that maximizes Model Evidence.</li>
+                        <li>MCMC [1] - MCMC-based kernel learning method that uses Metroplis-Hastings algorithm to sample kernel space to obtain the optimal kernel \(\mathbf{K}^*\) that maximizes Model Evidence.</li><br>
                         <li>CKS [2] - CKS is a greedy search algorithm. CKS generates complex kernels as compositions of base kernels through addition and multiplication. It treats the kernel selection as a tree search over the discrete kernel space \(\mathcal{K}\). 
-						Model Evidence is the metric that informs the next composite kernel generated at each node traversal.
+						Model Evidence is the metric that informs the next composite kernel generated at each node traversal.</li><br>
 						<li> BOMS [3] - BOMS uses Bayesian Optimization to find the optimal kernel \(\mathbf{K}^*\) in discrete kernel space \(\mathcal{K}\). To navigate the BO search in the discrete space, BOMS defines a kernel similarity measure called "Hellinger Distance".
 						This distance is used to compute the covariance of the Gaussian distribution of the BO. This “kernel-kernel” is needed to move from one kernel to another during the search. 
-						Kernels which are a certain Hellinger distance away from base kernels form the “active model set” on which BO is applied.
+						Kernels which are a certain Hellinger distance away from base kernels form the “active model set” on which BO is applied.</li>
 						<!--li>KOBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries.</li-->
                  
                     </ul><br>
                     <p style="font-size: 15px">Results below (Updated Figure 6 in paper) show that KOBO outperforms MCMC, CKS, and BOMS. KOBO achieves the minimum \(\hat{f}_{min}\) much quicker. 
-                </p>
+                </p><br>
 				<div class="clearfix">
 				<div class="img-container">
 				<img src="img/R1a_v7.jpg" alt="Italy" style="object-fit:contain;width:100%">
@@ -1855,6 +1855,26 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 			 This outperforms sub-optimal strategies like greedy search (CKS) and heuristic metrics for BO in discrete space (BOMS). 
 			<br>
 			<br>
+			
+			<h3>Ablation Study: Effect of grammar-based kernel encoding \(r_c\) length \(L\)</h3><br>
+				In the paper we used encodings of length \(L=15\). We compare two additional lengths \(L=5\) and \(L=25\):<br>
+				
+				<p style="font-size: 15px">Results below (Updated Figure 6 in paper) show that the encoding length \(L\) has diminishing advantage. 
+                </p><br>
+				<div class="clearfix">
+				<div class="img-container">
+				<img src="img/R1x_v1.jpg" alt="Italy" style="object-fit:contain;width:100%">
+				</div>
+				<div class="img-container">
+				<img src="img/R1xx_v1.jpg" alt="Forest" style="object-fit:contain;width:100%">
+				</div>
+				</div>   
+            </div>
+				For the staircase objective function, we observe that a larger encoding length \(L=25\) does not offer significant gains over the chosen legth \(L=15\). 
+				However, length \(L=5\) is not enough to generate kernels with enough complexity to model the objective function structure. Thus, \(L=15\) is a good choice for the function considered. 
+				
+				<br>
+				<br>
 				
 				
 				<h2> References</h2>
