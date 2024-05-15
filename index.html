@@ -462,7 +462,7 @@ Overflow:auto;
                             <li><a href="#results_target">Results</a></li>
 			    			<li><a href="#demos_target">Demos</a></li>
 			    			<li><a href="#code">Codes and Data</a></li>
-							<li><a href="#rebuttal_target">Rebuttal</a></li>
+							<!--li><a href="#rebuttal_target">Rebuttal</a></li-->
 				    		<li><a href="#references_target">References</a></li>
 							
 				    	</ul>
@@ -474,7 +474,7 @@ Overflow:auto;
 		<div id="paper_info">
 			<div id="paper_title">
     	        <h1>Kernel Learning for Sample Constrained Black-Box Optimization</h1>
-                <p style="color:lightblue;font-size:18px;">Submitted to ICML 2024</p>
+                <p style="color:lightblue;font-size:18px;">Submitted to NeurIPS 2024</p>
 			</div>
 		</div>
 
@@ -1759,7 +1759,7 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 			</div>
             <br>
 				<br>
-				<!--
+				
 				<h2><a class="subtitle">Prompt-based Image Generation Results</a></h2>
 				<br>
 				<p align="justify"; style="font-size: 15px"> Each image is generated after \(Q = 5,10,15,20,25,30,35,40,45,50\) queries (top to bottom, left to right). The table columns indicate the following:
@@ -1795,7 +1795,7 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 			
 				</table>
 			<br>
-			<br>-->
+			<br>
             
 				
             <div id="code_target" style="position: relative; top: -50px;"></div>
@@ -1816,7 +1816,7 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 			<br>
 			<br>
 			
-			
+			<!--
 			<div id="rebuttal_target" style="position: relative; top: -50px;"></div>
             <div id="rebuttal">
                 <h1><a class="subtitle">Rebuttal</a></h1>
@@ -1831,7 +1831,7 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 						<li> BOMS [4] - BOMS uses Bayesian Optimization to find the optimal kernel \(\mathbf{K}^*\) in discrete kernel space \(\mathcal{K}\). To navigate the BO search in the discrete space, BOMS defines a kernel similarity measure called "Hellinger Distance".
 						This distance is used to compute the covariance of the Gaussian distribution of the BO. This “kernel-kernel” is needed to move from one kernel to another during the search. 
 						Kernels which are a certain Hellinger distance away from base kernels form the “active model set” on which BO is applied.</li>
-						<!--li>KOBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries.</li-->
+						<li>KOBO - Our proposed algorithm that optimizes a continuous learned kernel latent space to determine the optimal kernel \(\mathbf{K}^*\) that matches the function \(f(x)\) thereby reducing the queries.</li>
                  
                     </ul><br>
                     <p>Results below (Updated Figure 6 in paper) show that KOBO outperforms MCMC, CKS, and BOMS. KOBO achieves the minimum \(\hat{f}_{min}\) much quicker. 
@@ -1869,7 +1869,7 @@ The iterations occur until the query budget \(B\) has been expended.</li>
 				</div>
 				<br>
 				<br>
-				
+				-->
 				
 		
 
